@@ -1,5 +1,5 @@
 from Class import Energy
-
+from Class import Connection
 #Exibi a lista dos planos disponiveis e guarda cada um em uma variável
 def alterarEnergia():
  planos = Energy.listarPlano()
@@ -17,17 +17,22 @@ def alterarEnergia():
     c+=1
 
 #Definir o plano de acordo com o fluxo
- fluxo = 15
+ fluxo = Connection.getFluxo()
  if(fluxo >= 50):
     gid = Desempenho
+    nome = "Desempenho"
  elif(fluxo > 14 and fluxo < 50):
     gid = Equilibrado
+    nome = "Equilibrado"
  else:
     gid = Economia
+    nome = "Economia"
 
 #Validação do plano, e troca do plano
  if(gid == Atual):
     print("Plano Atual já está de acordo com o fluxo!")
+    return nome
  else:
     trocar = Energy.alterarPlano(gid)
     print(trocar)
+    return nome
