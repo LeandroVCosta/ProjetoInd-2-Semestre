@@ -1,0 +1,56 @@
+create database Customizacao;
+/* drop database Customizacao;*/
+use Customizacao;
+
+create table banco(
+id int primary key auto_increment,
+nome varchar(50));
+
+create table cargo(
+id int primary key auto_increment,
+nome varchar(30),
+codigo int);
+
+create table Agencia(
+id int primary key auto_increment,
+numeroAgencia int,
+fkBanco int,
+foreign key (fkBanco) references Banco(id));
+
+create table usuario (
+id int primary key auto_increment,
+email varchar(50),
+senha varchar(255),
+fkCargo int,
+foreign key (fkCargo) references cargo(id),
+fkAgencia int,
+foreign key (fkAgencia) references Agencia(id));
+
+create table Caixa (
+id int primary key auto_increment,
+fkAgencia int);
+
+create table dadoEnergia (
+id int primary key auto_increment,
+fkCaixa int,
+consumo decimal(4,2), 
+plano varchar(30),
+momento DATETIME,
+foreign key (fkCaixa) references Caixa(id));
+
+insert into banco (nome) values ('Banco do Brasil SA'),('Bradesco'),('Caixa Federal');
+insert into cargo (nome,codigo) values ('Gestor Financeiro',3100),('Técnico',1200);
+insert into Agencia(numeroAgencia,fkBanco) values (6001,1), (5300,1),(4000,2),(4100,2);
+insert into Caixa(fkAgencia) values (1),(2),(3),(4);
+
+select * from banco;
+select * from cargo;
+select * FROM agencia;
+select * from Caixa;
+select * from usuario;
+
+select u.email,u.senha,c.nome,a.numeroAgencia from usuarioas u join cargo as c on c.id = u.fkCargo join Agencia as A on u.fkAgencia = a.id where u.email = %s and senha = %s;
+
+select * from dadoEnergia;
+
+select round(avg(consumo),2) from dadoEnergia where consumo <> 0;
