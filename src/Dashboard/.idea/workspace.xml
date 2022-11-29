@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="61df8bab-0831-45c8-a571-07028e85ff13" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/dashTecnico.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashTecnico.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/gestor.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/help.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App.py" beforeDir="false" afterPath="$PROJECT_DIR$/App.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/estilos.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/estilos.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dashTecnico.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

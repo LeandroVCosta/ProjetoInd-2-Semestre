@@ -3,9 +3,9 @@ import pyodbc
 
 def inserir(consumo,plano):
     mysqlconn = mysql.connector.connect(user='root', password='root', host='localhost',
-                                        database='projetoIND', port='3306');
+                                        database='Customizacao', port='3306');
     mysqlcursor = mysqlconn.cursor()
-    syntax = "insert into dadoEnergia (consumo,plano,momento) values (%s,%s, NOW())"
+    syntax = "insert into dadoEnergia (fkCaixa,consumo,plano,momento) values (1,%s,%s, NOW())"
     values = [consumo,plano]
     mysqlcursor.execute(syntax,values)
     mysqlconn.commit()
