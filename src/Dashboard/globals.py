@@ -1,46 +1,29 @@
 import pandas as pd
 import os
 
-from sqlalchemy import create_engine
 
-conn = create_engine("mysql+pymysql://root:root@localhost:3306/Customizacao")
+import sqlalchemy
+
+server = 'trackvisiondb.database.windows.net'
+database = 'trackvisiondb'
+username = 'CloudSA49c766d4'
+password = 'Urubu1004'
+driver = 'ODBC+DRIVER+17+for+SQL+Server'
+engine_stmt = ("mssql+pyodbc://%s:%s@%s/%s?driver=%s" % (username, password, server, database, driver ))
+conn = sqlalchemy.create_engine(engine_stmt)
+
+
 sql = "select * from dadoEnergia where fkCaixa = 1;"
-teste = pd.read_sql(sql,conn)
-print(teste)
+sqlframe = pd.read_sql(sql,conn)
+sqlframe["momento"] = pd.to_datetime(sqlframe["momento"])
+""" sqlframe["momento"] = sqlframe["momento"].apply(lambda x: x.date()) """
 
-if ("df_despesas.csv" in os.listdir()) and ("df_receitas.csv" in os.listdir()):
-    df_despesas = teste
-    df_receitas = pd.read_csv("df_receitas.csv", index_col=0, parse_dates=True)
-    df_despesas["momento"] = pd.to_datetime(df_despesas["momento"])
-    df_receitas["Data"] = pd.to_datetime(df_receitas["Data"])
-    df_despesas["momento"] = df_despesas["momento"].apply(lambda x: x.date())
-    df_receitas["Data"] = df_receitas["Data"].apply(lambda x: x.date())
+syntax = ("select AVG(consumo) from dadoEnergia where fkCaixa = 1")
+result =conn.execute(syntax)
+for row in result:
+    media = int(row[0]) * 20 * 10
 
-else:
-    data_structure = {'Valor':[],
-        'Efetuado':[],
-        'Fixo':[],
-        'Data':[],
-        'Categoria':[],
-        'Descrição':[],}
-
-    df_receitas = pd.DataFrame(data_structure)
-    df_despesas = pd.DataFrame(data_structure)
-    df_despesas.to_csv("df_despesas.csv")
-    df_receitas.to_csv("df_receitas.csv")
+estimativa = round(float(((media * 24 * 30) / 1000) * 1.04),2)
+print(estimativa)
 
 
-if ("df_cat_receita.csv" in os.listdir()) and ("df_cat_despesa.csv" in os.listdir()):
-    df_cat_receita = pd.read_csv("df_cat_receita.csv", index_col=0)
-    df_cat_despesa = pd.read_csv("df_cat_despesa.csv", index_col=0)
-    cat_receita = df_cat_receita.values.tolist()
-    cat_despesa = df_cat_despesa.values.tolist()
-
-else:    
-    cat_receita = {'Categoria': ["Salário", "Investimentos", "Comissão"]}
-    cat_despesa = {'Categoria': ["Alimentação", "Aluguel", "Gasolina", "Saúde", "Lazer"]}
-    
-    df_cat_receita = pd.DataFrame(cat_receita, columns=['Categoria'])
-    df_cat_despesa = pd.DataFrame(cat_despesa, columns=['Categoria'])
-    df_cat_receita.to_csv("df_cat_receita.csv")
-    df_cat_despesa.to_csv("df_cat_despesa.csv")

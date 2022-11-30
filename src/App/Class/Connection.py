@@ -1,36 +1,31 @@
 import mysql.connector
 import pyodbc
 
+server = 'trackvisiondb.database.windows.net'
+database = 'trackvisiondb'
+username = 'CloudSA49c766d4'
+password = 'Urubu1004'
+driver = '{ODBC Driver 17 for SQL Server}'
+
+conn = pyodbc.connect('DRIVER=' + driver + ';'
+                    'SERVER=tcp:' + server + ';'
+                    'PORT=1433;'
+                    'DATABASE=' + database + ';'
+                    'UID=' + username + ';'
+                    'PWD=' + password)
+
+cursor = conn.cursor()
+
 def inserir(consumo,plano):
-    mysqlconn = mysql.connector.connect(user='root', password='root', host='localhost',
-                                        database='Customizacao', port='3306');
-    mysqlcursor = mysqlconn.cursor()
-    syntax = "insert into dadoEnergia (fkCaixa,consumo,plano,momento) values (1,%s,%s, NOW())"
+    syntax = "DECLARE @Date DATETIME; SET @Date = GETDATE(); insert into dadoEnergia (fkCaixa,consumo,plano,momento) values (1,?,?,@Date)"
     values = [consumo,plano]
-    mysqlcursor.execute(syntax,values)
-    mysqlconn.commit()
-    mysqlconn.close()
+    cursor.execute(syntax,values)
+    conn.commit()
 
 def getFluxo():
-
-    server = 'trackvisiondb.database.windows.net'
-    database = 'trackvisiondb'
-    username = 'CloudSA49c766d4'
-    password = 'Urubu1004'
-    driver = '{ODBC Driver 17 for SQL Server}'
-
-    conn = pyodbc.connect('DRIVER=' + driver + ';'
-                        'SERVER=tcp:' + server + ';'
-                        'PORT=1433;'
-                        'DATABASE=' + database + ';'
-                        'UID=' + username + ';'
-                        'PWD=' + password)
-
-    cursor = conn.cursor()
     syntax = "select top 10 avg(cpuPorcentagem) from Leitura"
     cursor.execute(syntax)
     rows = cursor.fetchone()
-    conn.close()
     return int(rows[0])
 
 

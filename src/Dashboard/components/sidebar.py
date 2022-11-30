@@ -111,7 +111,7 @@ layout = dbc.Card([
             ]),
                         dbc.Row([
                 dbc.Col([
-                    html.H5("GESTOR")
+                    html.H5("TÉCNICO")
                 ], width=12, style={"text-align":"center","color":"green"}),
             ]),
         
@@ -120,9 +120,8 @@ layout = dbc.Card([
             dbc.Nav(
                 [
                     dbc.NavLink("Dashboard", href="/dashboards", active="exact"),
-                    dbc.NavLink("Extratos", href="/extratos", active="exact"),
                 ], vertical=True, pills=True, id='nav_buttons', style={"margin-bottom": "50px"}),
-            ThemeChangerAIO(aio_id="theme", radio_props={"value":dbc.themes.SKETCHY})
+            ThemeChangerAIO(aio_id="theme", radio_props={"value":dbc.themes.SANDSTONE})
 
         ], id='sidebar_completa'
     )
