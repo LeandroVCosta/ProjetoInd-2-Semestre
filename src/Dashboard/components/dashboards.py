@@ -26,12 +26,15 @@ graph_margin=dict(l=25, r=25, t=25, b=0)
 # =========  Layout  =========== #
 layout = dbc.Col([
         dbc.Row([
-            # Saldo
+            dbc.Col([
+              html.H3("Dashboard de Consumo de Energia"),
+              html.H5("Dados atuais e sendo exibidos em Tempo Real, referente ao plano de energia, consumo e custo.", style={"margin-top":"15px","margin-bottom":"30px"})
+            ], width=12, style={"text-align":"center"}),
             dbc.Col([
                     dbc.CardGroup([
                             dbc.Card([
                                     html.Legend("Plano de Energia"),
-                                    html.H5("Atual:", id="p-saldo-dashboards", style={}),
+                                    html.H5("Atual: " + plano, id="p-saldo-dashboards", style={}),
                             ], style={"padding-left": "20px", "padding-top": "10px"}),
                             dbc.Card(
                                 html.Div(className="fa fa-bolt", style=card_icon), 
@@ -40,7 +43,6 @@ layout = dbc.Col([
                             )])
                     ], width=4),
 
-            # Receita
             dbc.Col([
                     dbc.CardGroup([
                             dbc.Card([
@@ -54,7 +56,7 @@ layout = dbc.Col([
                             )])
                     ], width=4),
 
-            # Despesa
+            # Custo
             dbc.Col([
                 dbc.CardGroup([
                     dbc.Card([
@@ -110,40 +112,16 @@ layout = dbc.Col([
 
 
 # =========  Callbacks  =========== #
-# Dropdown Receita
-@app.callback([Output("dropdown-receita", "options"),
-    Output("dropdown-receita", "value"),
-    Output("p-receita-dashboards", "children")],
-    Input("store-receitas", "data"))
-def populate_dropdownvalues(data):
-    df = pd.DataFrame(data)
-    valor = df['Valor'].sum()
-    val = df.Categoria.unique().tolist()
-
-    return [([{"label": x, "value": x} for x in df.Categoria.unique()]), val, f"R$ {valor}"]
-
-# Dropdown Despesa
-@app.callback([Output("dropdown-despesa", "options"),
-    Output("button-atualizar", "value"),
-    Output("p-despesa-dashboards", "children")],
-    Input("store-despesas", "[data]"))
-def populate_dropdownvalues(data):
-    df = pd.DataFrame(data)
-    valor = df['Valor'].sum()
-    val = df.Categoria.unique().tolist()
-
-    return [([{"label": x, "value": x} for x in df.Categoria.unique()]), val, f"R$ {valor}"]
-
-
     
 # Gráfico 1
 
 @app.callback(
     Output('graph1', 'figure'),
     [Input('date-picker-config', 'start_date'),
-    Input('date-picker-config', 'end_date'), 
+    Input('date-picker-config', 'end_date'),
+    Input('button-atualizar', 'n_clicks'), 
     Input(ThemeChangerAIO.ids.radio("theme"), "value")])
-def update_output( start_date, end_date,theme):
+def update_output( start_date, end_date,n_clicks,theme):
     df_sqlframe = pd.DataFrame(sqlframe).sort_values(by='momento', ascending=True)
     print(start_date,end_date)
     mask = (df_sqlframe['momento'] > start_date) & (df_sqlframe['momento'] <= end_date) 

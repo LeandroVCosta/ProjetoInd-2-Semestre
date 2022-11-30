@@ -15,10 +15,10 @@ def alterarPlano(GUID):
     return "Houve um problema ao trocar o plano"
 
 def getWatt():
-    consumo = 0
-    w = wmi.WMI(namespace="root\OpenHardwareMonitor")
-    voltage_infos = w.Sensor()
     try:
+     consumo = 0
+     w = wmi.WMI(namespace="root\OpenHardwareMonitor")
+     voltage_infos = w.Sensor()
      for sensor in voltage_infos:
         if sensor.SensorType == u"Power":
             if sensor.Name == "CPU Package":

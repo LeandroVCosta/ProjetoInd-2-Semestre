@@ -13,7 +13,7 @@ engine_stmt = ("mssql+pyodbc://%s:%s@%s/%s?driver=%s" % (username, password, ser
 conn = sqlalchemy.create_engine(engine_stmt)
 
 
-sql = "select * from dadoEnergia where fkCaixa = 1;"
+sql = "select * from dadoEnergia where fkCaixa = 1 and consumo <> 0;"
 sqlframe = pd.read_sql(sql,conn)
 sqlframe["momento"] = pd.to_datetime(sqlframe["momento"])
 """ sqlframe["momento"] = sqlframe["momento"].apply(lambda x: x.date()) """
@@ -27,3 +27,8 @@ estimativa = round(float(((media * 24 * 30) / 1000) * 1.04),2)
 print(estimativa)
 
 
+syntax = ("select TOP 1 plano from dadoEnergia where fkCaixa=1 ")
+result = conn.execute(syntax)
+for row in result:
+  plano = str(row[0])
+print(plano)

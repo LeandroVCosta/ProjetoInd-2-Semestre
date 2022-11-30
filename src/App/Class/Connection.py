@@ -1,4 +1,3 @@
-import mysql.connector
 import pyodbc
 
 server = 'trackvisiondb.database.windows.net'

@@ -9,7 +9,7 @@ import time
 # import from folders
 from app import *
 from components import sidebar, dashboards
-
+import threading
 # =========  Layout  =========== #
 content = html.Div(id="page-content")
 
@@ -38,4 +38,4 @@ def render_page_content(pathname):
 if __name__ == '__main__':
     app.run_server(debug=True)
 
-
+delay = 5
