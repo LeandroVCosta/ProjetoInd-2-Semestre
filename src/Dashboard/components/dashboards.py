@@ -122,7 +122,11 @@ layout = dbc.Col([
     Input('button-atualizar', 'n_clicks'), 
     Input(ThemeChangerAIO.ids.radio("theme"), "value")])
 def update_output( start_date, end_date,n_clicks,theme):
+    sql = "select * from dadoEnergia where fkCaixa = 1 and consumo <> 0;"
+    sqlframe = pd.read_sql(sql,conn)
+    sqlframe["momento"] = pd.to_datetime(sqlframe["momento"])
     df_sqlframe = pd.DataFrame(sqlframe).sort_values(by='momento', ascending=True)
+    
     print(start_date,end_date)
     mask = (df_sqlframe['momento'] > start_date) & (df_sqlframe['momento'] <= end_date) 
     print(mask)

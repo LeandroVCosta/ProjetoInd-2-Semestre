@@ -5,6 +5,7 @@ from Class import Connection as con
 
 while True:
  consumo = Energy.getWatt()
+ print(consumo)
  plano = Repositorio.alterarEnergia()
  con.inserir(consumo,plano)
- sleep(15)
+ sleep(30)
