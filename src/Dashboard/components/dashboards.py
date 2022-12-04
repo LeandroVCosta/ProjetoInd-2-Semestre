@@ -10,6 +10,7 @@ import calendar
 from globals import *
 from app import app
 
+
 import pdb
 from dash_bootstrap_templates import template_from_url, ThemeChangerAIO
 
@@ -74,17 +75,6 @@ layout = dbc.Col([
         dbc.Row([
             dbc.Col([
                 dbc.Card([
-                        # html.Legend("Filtrar Análise", className="card-title"),
-                        # html.Label("Categorias das receitas"),
-                        # html.Div(
-                        #     dcc.Dropdown(
-                        #     id="dropdown-receita",
-                        #     clearable=False,
-                        #     style={"width": "100%"},
-                        #     persistence=True,
-                        #     persistence_type="session",
-                        #     multi=True)                       
-                        # ),
                         html.Legend("Período de Análise", style={"margin-top": "10px","text-align":"center"}),
                         dcc.DatePickerRange(
                             month_format='Do MMM, YY',
@@ -95,18 +85,19 @@ layout = dbc.Col([
                             updatemode='singledate',
                             id='date-picker-config',
                             style={'z-index': '100',"align-self":"center"}),
-                            
-                        html.Button("Atualizar",
-                            id="button-atualizar",
-                            style={"width":"40%","align-self":"center",}
-                        ), 
                             ],
                 style={"height": "100%", "padding": "20px","gap":"15px"}),
                  
 
             ], width=12)
     ]),
-    dbc.Col(dbc.Card(dcc.Graph(id="graph1"), style={"height": "100%", "padding": "10px"}), width=12),
+    dbc.Col(dbc.Card(dcc.Graph(id="graph1"), 
+    style={"height": "100%", "padding": "10px"}), width=12),
+         dcc.Interval(
+            id='interval-component',
+            interval=30000,
+            n_intervals=0
+        )
         ], style={"margin": "10px","align-self":"center"})
 
 
@@ -119,7 +110,7 @@ layout = dbc.Col([
     Output('graph1', 'figure'),
     [Input('date-picker-config', 'start_date'),
     Input('date-picker-config', 'end_date'),
-    Input('button-atualizar', 'n_clicks'), 
+    Input('interval-component', 'n_intervals'), 
     Input(ThemeChangerAIO.ids.radio("theme"), "value")])
 def update_output( start_date, end_date,n_clicks,theme):
     sql = "select * from dadoEnergia where fkCaixa = 1 and consumo <> 0;"

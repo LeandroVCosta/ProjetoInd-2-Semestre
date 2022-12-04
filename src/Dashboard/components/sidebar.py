@@ -22,8 +22,8 @@ layout = dbc.Card([
                 html.Img(src="assets/track-vision.png"),
                 html.Hr(),
                 dbc.Card(id='botao_avatar',
-                    children=[html.Img(src="/assets/gestor.png", id="avatar_change", alt="Avatar", className='perfil_avatar'),
-                ], style={'background-color': 'transparent', 'border-color': 'transparent'}),
+                    children=[html.Img(src="/assets/tecnico.png", id="avatar_change", alt="Avatar", className='perfil_avatar'),
+                ], style={'background-color': 'transparent', 'border-color': 'transparent','margin-left':'10px'}),
 
             dbc.Row([
                 dbc.Col([
@@ -41,7 +41,7 @@ layout = dbc.Card([
                 [
                     dbc.NavLink("Dashboard", href="/dashboards", active="exact"),
                 ], vertical=True, pills=True, id='nav_buttons', style={"margin-bottom": "50px"}),
-            ThemeChangerAIO(aio_id="theme", radio_props={"value":dbc.themes.SANDSTONE})
+            ThemeChangerAIO(aio_id="theme", radio_props={"value":dbc.themes.BOOTSTRAP})
 
         ], id='sidebar_completa'
     )
