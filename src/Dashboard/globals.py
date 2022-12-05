@@ -1,7 +1,6 @@
 import pandas as pd
 import os
 
-
 import sqlalchemy
 
 server = 'trackvisiondb.database.windows.net'

@@ -9,10 +9,13 @@ import plotly.graph_objects as go
 import calendar
 from globals import *
 from app import app
+from flask import request
 
 
 import pdb
 from dash_bootstrap_templates import template_from_url, ThemeChangerAIO
+
+
 
 card_icon = {
     "color": "white",
@@ -112,10 +115,11 @@ layout = dbc.Col([
     Input('date-picker-config', 'end_date'),
     Input('interval-component', 'n_intervals'), 
     Input(ThemeChangerAIO.ids.radio("theme"), "value")])
-def update_output( start_date, end_date,n_clicks,theme):
-    sql = "select * from dadoEnergia where fkCaixa = 1 and consumo <> 0;"
+def update_output( start_date, end_date,n_intervals,theme):
+    username = request.authorization['username']
+    sql = "select * from [dbo].[dadoEnergia] join caixa on fkBanco = (select fkBanco from Usuario where email = '"+username+"')and consumo <> 0;"
     sqlframe = pd.read_sql(sql,conn)
-    sqlframe["momento"] = pd.to_datetime(sqlframe["momento"])
+    sqlframe["momento"] = pd.to_datetime(sqlframe["momento"]) - timedelta(hours=3)
     df_sqlframe = pd.DataFrame(sqlframe).sort_values(by='momento', ascending=True)
     
     mask = (df_sqlframe['momento'] > start_date) & (df_sqlframe['momento'] <= end_date) 

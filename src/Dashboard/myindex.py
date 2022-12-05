@@ -6,6 +6,7 @@ import pandas as pd
 import plotly.express as px
 import time
 
+
 # import from folders
 from app import *
 from components import sidebar, dashboards
