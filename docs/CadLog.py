@@ -19,11 +19,9 @@ def login(email, senha):
         valor.append(row)
     if len(valor) != 1:
         return False
-    print(valor)
     return valor
 
 def menu():
-    print("Bem vindo ao menu Track Vision - GreenPower")
     while True:
                 email = input("Digite seu Email \n")
                 if email.find('@') == -1:
@@ -36,4 +34,3 @@ def menu():
                  else:
                      print('Login Realizado com Sucesso!')
                      return resposta
-resposta = menu()

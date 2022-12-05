@@ -13,6 +13,7 @@ import threading
 # =========  Layout  =========== #
 content = html.Div(id="page-content")
 
+
 app.layout = dbc.Container(children=[
     
     dbc.Row([

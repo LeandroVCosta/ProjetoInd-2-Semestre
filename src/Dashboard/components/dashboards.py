@@ -47,7 +47,7 @@ layout = dbc.Col([
             dbc.Col([
                     dbc.CardGroup([
                             dbc.Card([
-                                    html.Legend("Média de Consumo"),
+                                    html.Legend("Média de Consumo Agência"),
                                     html.H5("Gastando: " + str(media) + "W/s", id="p-receita-dashboards"),
                             ], style={"padding-left": "20px", "padding-top": "10px"}),
                             dbc.Card(
@@ -118,11 +118,8 @@ def update_output( start_date, end_date,n_clicks,theme):
     sqlframe["momento"] = pd.to_datetime(sqlframe["momento"])
     df_sqlframe = pd.DataFrame(sqlframe).sort_values(by='momento', ascending=True)
     
-    print(start_date,end_date)
     mask = (df_sqlframe['momento'] > start_date) & (df_sqlframe['momento'] <= end_date) 
-    print(mask)
     df_sqlframe = df_sqlframe.loc[mask]
-    print(df_sqlframe)
   
 
     df_sqlframe = df_sqlframe.set_index('momento')[['consumo']]

@@ -24,11 +24,9 @@ for row in result:
     media = int(row[0]) * 20 * 10
 
 estimativa = round(float(((media * 24 * 30) / 1000) * 1.04),2)
-print(estimativa)
 
 
 syntax = ("select TOP 1 plano from dadoEnergia where fkCaixa=1 ")
 result = conn.execute(syntax)
 for row in result:
   plano = str(row[0])
-print(plano)
